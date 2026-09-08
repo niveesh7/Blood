@@ -1,0 +1,1 @@
+{% extends 'base.html' %}{% block title %}My history · HemaScan{% endblock %}{% block content %}<section class="heading"><div><p class="eyebrow">PERSONAL DASHBOARD</p><h1>Your screening history</h1><p class="muted">Signed in as {{ session.email }}</p></div><a class="button" href="/check">New check</a></section>{% include 'history_table.html' %}{% endblock %}
