@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Verify your email · HemaScan{% endblock %}
+{% block content %}
+<section class="result card">
+  <p class="eyebrow">ONE LAST STEP</p>
+  <h1>Verify your email</h1>
+  <div class="mail-icon">✉</div>
+  <p>We sent a verification link to <strong>{{ email }}</strong>.</p>
+  <p class="muted">Open that email and select the confirmation link to activate your account. If it does not arrive in a few minutes, check your Spam or Promotions folder.</p>
+  <p><a class="button" href="/">Return to sign in</a></p>
+</section>
+{% endblock %}

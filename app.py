@@ -92,8 +92,9 @@ def register():
         flash("Supabase is not configured yet. Add the environment variables first.", "error")
     else:
         try:
-            auth("signup", {"email": request.form["email"].strip(), "password": request.form["password"]})
-            flash("Account created. Confirm your email, then sign in.", "success")
+            email = request.form["email"].strip()
+            auth("signup", {"email": email, "password": request.form["password"]})
+            return render_template("verify_email.html", email=email)
         except (ValueError, requests.RequestException) as error: flash(str(error), "error")
     return redirect(url_for("home"))
 
