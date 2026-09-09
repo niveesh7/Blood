@@ -147,6 +147,14 @@ def save_history(file_name, blood_group, confidence):
     response.raise_for_status()
 
 
+def delete_history_record(record_id):
+    response = requests.delete(
+        f"{os.environ['SUPABASE_URL'].rstrip('/')}/rest/v1/prediction_history",
+        headers=db_headers(), params={"id": f"eq.{record_id}"}, timeout=20,
+    )
+    response.raise_for_status()
+
+
 def predict(path):
     global _model
     image = cv2.imread(str(path))
@@ -249,6 +257,17 @@ def admin_dashboard():
         records = []
         flash("Could not load screening history. Please try again.", "error")
     return render_template("admin.html", records=records, admin=True)
+
+
+@app.post("/admin/history/<int:record_id>/delete")
+@admin_required
+def delete_history(record_id):
+    try:
+        delete_history_record(record_id)
+        flash("Screening record deleted.", "success")
+    except requests.RequestException:
+        flash("Could not delete this screening record. Please try again.", "error")
+    return redirect(url_for("admin_dashboard"))
 
 
 @app.route("/check")
