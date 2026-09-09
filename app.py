@@ -93,7 +93,12 @@ def register():
     else:
         try:
             email = request.form["email"].strip()
-            auth("signup", {"email": email, "password": request.form["password"]})
+            data = auth("signup", {"email": email, "password": request.form["password"]})
+            if data.get("access_token") and data.get("user"):
+                session.clear()
+                session.update(access_token=data["access_token"], user_id=data["user"]["id"], email=data["user"]["email"])
+                flash("Your account is ready.", "success")
+                return redirect(url_for("admin_dashboard" if is_admin() else "dashboard"))
             return render_template("verify_email.html", email=email)
         except (ValueError, requests.RequestException) as error: flash(str(error), "error")
     return redirect(url_for("home"))
